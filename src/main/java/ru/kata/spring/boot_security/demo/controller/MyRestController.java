@@ -67,8 +67,12 @@ public class MyRestController {
         return new ResponseEntity<>(roleService.getAllRoles(), HttpStatus.OK);
     }
 
+
     @GetMapping("/roles/{id}")
-    ResponseEntity<Role> getRoleById(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(roleService.getRoleById(id), HttpStatus.OK);
+    public ResponseEntity<Role> getRoleById(@PathVariable("id") Long id) {
+        Role role = roleService.getRoleById(id)
+                .orElseThrow(() -> new NoSuchUserException("Role with id " + id + " not found"));
+        return new ResponseEntity<>(role, HttpStatus.OK);
     }
+
 }
